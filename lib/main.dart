@@ -31,7 +31,7 @@ class FasterChatApp extends StatelessWidget {
             textScaler: const TextScaler.linear(1.0),
           ),
           child: MaterialApp(
-            title: 'FasterChat',
+            title: 'FasterChatting',
             debugShowCheckedModeBanner: false,
             home: FasterChatView(),
           ),

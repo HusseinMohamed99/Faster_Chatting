@@ -1,0 +1,14 @@
+flutter_native_splash:
+  color: "#161C2B"
+  image: assets/images/splash.png
+  image_dark: assets/images/splash.png
+  color_dark: "#161C2B"
+  android: true
+  ios: true
+  fullscreen: true
+  # Following are Android 12 specific parameter.
+  android_12:
+    image: assets/images/splash_android12.png
+    color: "#161C2B"
+    image_dark: assets/images/splash_android12.png
+    color_dark: "#161C2B"

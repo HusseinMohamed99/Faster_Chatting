@@ -19,7 +19,7 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final bool hasConstraints;
   final String? Function(String?)? onSaved;
-  final String? Function(String?)? onChanged;
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final BorderRadius? borderRadius;
 
@@ -63,7 +63,11 @@ class AppTextFormField extends StatelessWidget {
                 color: ColorManager.lightGrayColor,
                 width: 1,
               ),
-              borderRadius: borderRadius ?? BorderRadius.circular(12),
+              borderRadius: borderRadius ??
+                  const BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
             ),
         enabledBorder: enabledBorder ??
             OutlineInputBorder(
@@ -71,7 +75,11 @@ class AppTextFormField extends StatelessWidget {
                 color: ColorManager.lightGrayColor,
                 width: 1,
               ),
-              borderRadius: borderRadius ?? BorderRadius.circular(12),
+              borderRadius: borderRadius ??
+                  const BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
             ),
         prefixIconConstraints: hasConstraints
             ? BoxConstraints(
@@ -83,14 +91,22 @@ class AppTextFormField extends StatelessWidget {
             color: Colors.red,
             width: 1,
           ),
-          borderRadius: borderRadius ?? BorderRadius.circular(12),
+          borderRadius: borderRadius ??
+              const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: Colors.red,
             width: 1,
           ),
-          borderRadius: borderRadius ?? BorderRadius.circular(12),
+          borderRadius: borderRadius ??
+              const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
         ),
         hintStyle: hintStyle ?? StyleManager.font13LighterGrayRegular,
         hintText: hintText,
@@ -98,6 +114,8 @@ class AppTextFormField extends StatelessWidget {
         errorStyle: TextStyle(
           color: Colors.red,
           fontSize: 12.sp,
+          fontWeight: FontWeight.w700,
+          backgroundColor: Colors.white,
         ),
         fillColor: backgroundColor ?? ColorManager.whiteColor,
         filled: true,

@@ -4,7 +4,9 @@ allprojects {
         mavenCentral()
     }
 }
-
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:-options' 
+    }
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"

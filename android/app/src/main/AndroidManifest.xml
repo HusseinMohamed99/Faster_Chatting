@@ -30,7 +30,7 @@
     </queries>
 
     <application
-        android:label="FasterChatting"
+        android:label="NumChat"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -11,7 +11,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.faster_chatting"
+    namespace = "com.example.numchat"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -49,6 +49,7 @@ android {
              signingConfig = signingConfigs.release
         }
     }
+    
 }
 
 flutter {

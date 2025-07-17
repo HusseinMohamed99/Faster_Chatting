@@ -1,4 +1,4 @@
-package com.example.faster_chatting
+package com.example.numchat
 
 import io.flutter.embedding.android.FlutterActivity
 

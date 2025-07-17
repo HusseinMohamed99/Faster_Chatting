@@ -1,23 +1,24 @@
 import 'dart:developer';
 
-import 'package:faster_chatting/Core/app_buttons.dart';
-import 'package:faster_chatting/Core/color_manager.dart';
-import 'package:faster_chatting/Core/style_manager.dart';
-import 'package:faster_chatting/widgets/footer_section.dart';
-import 'package:faster_chatting/widgets/phone_input_row.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:numchat/Core/app_buttons.dart';
+import 'package:numchat/Core/color_manager.dart';
+import 'package:numchat/Core/style_manager.dart';
+import 'package:numchat/widgets/footer_section.dart';
+import 'package:numchat/widgets/phone_input_row.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class FasterChatForm extends StatefulWidget {
-  const FasterChatForm({super.key});
+// Form with country picker + WhatsApp launcher + validation
+class NumChatForm extends StatefulWidget {
+  const NumChatForm({super.key});
 
   @override
-  State<FasterChatForm> createState() => _FasterChatFormState();
+  State<NumChatForm> createState() => _NumChatFormState();
 }
 
-class _FasterChatFormState extends State<FasterChatForm> {
+class _NumChatFormState extends State<NumChatForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
   CountryCode _countryCode =
@@ -31,35 +32,26 @@ class _FasterChatFormState extends State<FasterChatForm> {
     super.dispose();
   }
 
+  // Handles WhatsApp redirection logic
   Future<void> _launchWhatsApp() async {
-    log("Form validation status: ${_formKey.currentState?.validate()}");
-    log("Phone: ${_phoneController.text}");
-    log("Country code: ${_countryCode.dialCode}");
-
+    log("Validating form...");
     if (_formKey.currentState?.validate() ?? false) {
-      String sanitizedPhone =
-          _phoneController.text.replaceAll(RegExp(r'\s+'), '');
-      String url = 'https://wa.me/${_countryCode.dialCode}$sanitizedPhone';
-      Uri uri = Uri.parse(url);
-
-      log("Generated URL: $url");
+      final fullNumber =
+          '${_countryCode.dialCode}${_phoneController.text.trim()}';
+      final Uri uri = Uri.parse('https://wa.me/$fullNumber');
 
       try {
         if (await canLaunchUrl(uri)) {
-          log("Launching WhatsApp...");
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         } else {
           _showErrorSnackBar("Could not launch WhatsApp. Invalid URL.");
-          log("Could not launch $uri");
         }
       } catch (e) {
         _showErrorSnackBar("An error occurred while launching WhatsApp.");
-        log("Error launching WhatsApp: $e");
+        log("Launch error: $e");
       }
     } else {
-      setState(() {
-        _autoValidate = true;
-      });
+      setState(() => _autoValidate = true);
       _showErrorSnackBar("Please correct the errors in the form.");
     }
   }
@@ -70,15 +62,16 @@ class _FasterChatFormState extends State<FasterChatForm> {
       initialSelectedLocale: 'EG',
     );
     if (selectedCountry != null) {
-      setState(() {
-        _countryCode = selectedCountry;
-      });
+      setState(() => _countryCode = selectedCountry);
     }
   }
 
   void _showErrorSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade700,
+      ),
     );
   }
 
@@ -98,9 +91,7 @@ class _FasterChatFormState extends State<FasterChatForm> {
               controller: _phoneController,
               countryCode: _countryCode,
               onCountryCodeTap: _pickCountryCode,
-              onPhoneChanged: (value) {
-                setState(() {});
-              },
+              onPhoneChanged: (_) {},
             ),
             SizedBox(height: 20.h),
             AppTextButton(

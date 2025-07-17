@@ -1,17 +1,17 @@
-import 'package:faster_chatting/faster_chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:numchat/num_chat_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
 
-  runApp(const FasterChatApp());
+  runApp(const NumChatApp());
 }
 
-class FasterChatApp extends StatelessWidget {
-  const FasterChatApp({super.key});
+class NumChatApp extends StatelessWidget {
+  const NumChatApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,9 @@ class FasterChatApp extends StatelessWidget {
             textScaler: const TextScaler.linear(1.0),
           ),
           child: MaterialApp(
-            title: 'FasterChatting',
+            title: 'NumChat',
             debugShowCheckedModeBanner: false,
-            home: FasterChatView(),
+            home: NumChatView(),
           ),
         );
       },

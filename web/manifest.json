@@ -1,6 +1,6 @@
 {
-    "name": "faster_chatting",
-    "short_name": "faster_chatting",
+    "name": "numchat",
+    "short_name": "numchat",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

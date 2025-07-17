@@ -1,5 +1,5 @@
-import 'package:faster_chatting/Core/color_manager.dart';
-import 'package:faster_chatting/Core/style_manager.dart';
+import 'package:numchat/Core/color_manager.dart';
+import 'package:numchat/Core/style_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,6 +46,12 @@ class AppTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BorderRadius effectiveRadius = borderRadius ??
+        const BorderRadius.only(
+          topRight: Radius.circular(12),
+          bottomRight: Radius.circular(12),
+        );
+
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
@@ -53,75 +59,41 @@ class AppTextFormField extends StatelessWidget {
       validator: validator,
       onSaved: onSaved,
       onChanged: onChanged,
+      style: inputTextStyle ?? StyleManager.font15,
+      obscureText: isObscureText ?? false,
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: contentPadding ??
-            EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-        focusedBorder: focusedBorder ??
-            OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: ColorManager.lightGrayColor,
-                width: 1,
-              ),
-              borderRadius: borderRadius ??
-                  const BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
-                  ),
-            ),
-        enabledBorder: enabledBorder ??
-            OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: ColorManager.lightGrayColor,
-                width: 1,
-              ),
-              borderRadius: borderRadius ??
-                  const BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
-                  ),
-            ),
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+        focusedBorder: focusedBorder ?? _buildBorder(ColorManager.lightGrayColor, effectiveRadius),
+        enabledBorder: enabledBorder ?? _buildBorder(ColorManager.lightGrayColor, effectiveRadius),
+        errorBorder: _buildBorder(Colors.red, effectiveRadius),
+        focusedErrorBorder: _buildBorder(Colors.red, effectiveRadius),
         prefixIconConstraints: hasConstraints
             ? BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.2,
-                maxHeight: 60)
+                maxHeight: 60,
+              )
             : null,
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 1,
-          ),
-          borderRadius: borderRadius ??
-              const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.red,
-            width: 1,
-          ),
-          borderRadius: borderRadius ??
-              const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-              ),
-        ),
+        prefixIcon: prefixIcon,
         hintStyle: hintStyle ?? StyleManager.font13LighterGrayRegular,
         hintText: hintText,
-        prefixIcon: prefixIcon,
+        fillColor: backgroundColor ?? ColorManager.whiteColor,
+        filled: true,
         errorStyle: TextStyle(
           color: Colors.red,
           fontSize: 12.sp,
           fontWeight: FontWeight.w700,
           backgroundColor: Colors.white,
         ),
-        fillColor: backgroundColor ?? ColorManager.whiteColor,
-        filled: true,
       ),
-      obscureText: isObscureText ?? false,
-      style: StyleManager.font15,
+    );
+  }
+
+  InputBorder _buildBorder(Color color, BorderRadius radius) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: color, width: 1),
+      borderRadius: radius,
     );
   }
 }
+

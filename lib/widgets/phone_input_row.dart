@@ -1,8 +1,8 @@
-import 'package:faster_chatting/text_input.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:numchat/text_input.dart';
 
 class PhoneInputRow extends StatelessWidget {
   final TextEditingController controller;
@@ -22,7 +22,8 @@ class PhoneInputRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
+        // Country Code Button
+       SizedBox(
           width: MediaQuery.of(context).size.width * 0.2,
           child: AppTextFormField(
             borderRadius: const BorderRadius.only(
@@ -59,16 +60,17 @@ class PhoneInputRow extends StatelessWidget {
             ),
           ),
         ),
+        // Phone Number Input
         Expanded(
           child: AppTextFormField(
             hintText: 'Phone number',
             controller: controller,
             keyboardType: TextInputType.phone,
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              FilteringTextInputFormatter.digitsOnly,
             ],
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 return 'Phone number is required';
               }
               if (value.length < 9) {

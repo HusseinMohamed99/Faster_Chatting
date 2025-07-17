@@ -1,17 +1,18 @@
 import 'package:faster_chatting/text_input.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
-import 'package:flrx_validator/flrx_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PhoneInputRow extends StatelessWidget {
+  final TextEditingController controller;
   final CountryCode countryCode;
   final VoidCallback onCountryCodeTap;
   final ValueChanged<String> onPhoneChanged;
 
   const PhoneInputRow({
     super.key,
+    required this.controller,
     required this.countryCode,
     required this.onCountryCodeTap,
     required this.onPhoneChanged,
@@ -28,7 +29,17 @@ class PhoneInputRow extends StatelessWidget {
               topLeft: Radius.circular(12),
               bottomLeft: Radius.circular(12),
             ),
-            validator: (value) => '',
+            controller: controller,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return '';
+              }
+              if (value.length < 9) {
+                return '';
+              }
+              return null;
+            },
+            onChanged: onPhoneChanged,
             prefixIcon: GestureDetector(
               onTap: onCountryCodeTap,
               child: Padding(
@@ -50,23 +61,22 @@ class PhoneInputRow extends StatelessWidget {
         ),
         Expanded(
           child: AppTextFormField(
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(12),
-              bottomRight: Radius.circular(12),
-            ),
+            hintText: 'Phone number',
+            controller: controller,
             keyboardType: TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
             ],
-            onChanged: (value) {
-              onPhoneChanged(value ?? '');
-              return null; // No need to handle null
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Phone number is required';
+              }
+              if (value.length < 9) {
+                return 'Invalid phone number';
+              }
+              return null;
             },
-            validator: Validator(rules: [
-              RequiredRule(validationMessage: 'Phone is required'),
-              MinLengthRule(9, validationMessage: 'Invalid phone number'),
-            ]).call,
-            hintText: 'Phone Number',
+            onChanged: onPhoneChanged,
           ),
         ),
       ],

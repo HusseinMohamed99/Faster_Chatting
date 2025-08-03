@@ -2,7 +2,7 @@ name: numchat
 description: "NumChat - Chat on WhatsApp without saving numbers."
 publish_to: 'none'
 
-version: 1.0.6+6
+version: 1.0.7+7
 
 environment:
   sdk: ^3.6.0
